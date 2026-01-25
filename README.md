@@ -76,7 +76,8 @@ R packages:
 RUN LOCALLY
 -----------
 1) Clone the repository:
-   git clone https: https://github.com/mklei970528-tech/Motif-Typer.git
+   git clone https://github.com/mklei970528-tech/PEDV-Motif-Typer.git
+cd PEDV-Motif-Typer
 
 2) Install dependencies in R:
    install.packages(c("shiny","bslib","shinycssloaders","DT","dplyr","tidyr","purrr","readxl"))
@@ -98,7 +99,7 @@ RECOMMENDED PROJECT STRUCTURE
 .
 ├── app.R
 ├── Information.xlsx
-├── README.txt
+├── README.md
 └── LICENSE
 
 
@@ -118,7 +119,7 @@ COMMON ISSUES
 CITATION
 --------
 If you use this tool in research, please cite/acknowledge this repository:
-- Repository: https://github.com/mklei970528-tech/Motif-Typer.git
+- Repository: https://github.com/mklei970528-tech/PEDV-Motif-Typer.git
 - Authors: <Mingkai Lei / V-EPI lab>
 (Peer reviewed article citation: Lei, M., Li, H., Chen, X., Li, X., Yu, X., Ruan, S., Wu, H., Ghonaim, A.H., Yan, Z., Li, W. and He, Q. (2025), A novel genotyping system based on site polymorphism on spike gene reveals the evolutionary pathway of porcine epidemic diarrhea virus. iMetaOmics, 2: e70013. https://doi.org/10.1002/imo2.70013)
 
