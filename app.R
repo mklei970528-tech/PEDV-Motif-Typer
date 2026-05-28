@@ -2367,7 +2367,7 @@ server <- function(input, output, session) {
       space = 0.35
     )
     title(main = paste0(plot_title, " (till 2025)"), line = 2.2, cex.main = 1.0)
-    axis(1, at = bp, labels = periods, las = 2, cex.axis = 0.9)
+    axis(1, at = bp, labels = periods, las = 1, cex.axis = 0.9)
     grid(nx = NA, ny = NULL, col = "#e5e7eb", lty = 1)
     cumulative <- apply(pct_mat, 2, cumsum)
     bottoms <- rbind(rep(0, ncol(pct_mat)), cumulative[-nrow(pct_mat), , drop = FALSE])

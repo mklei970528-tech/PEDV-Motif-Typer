@@ -23,13 +23,9 @@ PEDV Motif Typer is a Shiny web application for identifying PEDV S-protein polym
 
 - `app.R`: Main Shiny application.
 - `sequence_database.csv`: Curated searchable sequence database.
-- `Information_current_typing.xlsx`: Curated typing information and reference descriptions.
 - `typing_description_editable.csv`: Editable description table used by the information panel.
 - `four_tree_legend_branch_colors.csv`: Color mapping for tree and trend labels.
 - `www/`: Static tree and spatiotemporal image assets.
-- `validation_scripts/`: Backend validation script.
-- `validation_output_3042_20260528_final/`: Final validation output for the 3042-sequence dataset.
-- `README_DEPLOYMENT.md`: Deployment-oriented notes.
 
 ## Running Locally
 
@@ -75,15 +71,9 @@ Supported input examples include:
 
 Highly ambiguous sequences or fragments that do not cover the decision loci may be reported as `Undetermined`.
 
-## Validation
+## Validation Summary
 
-The current backend was validated against a curated 3042-sequence S-gene dataset. The final validation report is:
-
-```text
-validation_output_3042_20260528_final/validation_result_and_analysis.md
-```
-
-Final validation showed agreement with curated expected labels for the four typing systems and the five polymorphic-locus states.
+The current backend was validated against a curated 3042-sequence S-gene dataset. Final validation showed agreement with curated expected labels for the four typing systems and the five polymorphic-locus states.
 
 ## Deployment Notes
 
@@ -99,7 +89,7 @@ shiny::runApp(".", host = "127.0.0.1", port = 3838)
 ## Updating the App
 
 - Update `sequence_database.csv` to refresh searchable strain metadata and typing results.
-- Update `typing_description_editable.csv` or `Information_current_typing.xlsx` to revise group descriptions and reference strains.
+- Update `typing_description_editable.csv` to revise group descriptions and reference strains.
 - Replace files in `www/` to update static trees or distribution figures.
 - Update `four_tree_legend_branch_colors.csv` to keep tree and spatiotemporal colors consistent.
 

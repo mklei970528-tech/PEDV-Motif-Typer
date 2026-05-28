@@ -1,2 +1,0 @@
-sequence_ID,expected_N57_N62_state,expected_135_136_motif,expected_N1192_N1194_state,expected_G1157_state,expected_N718_N722_state,expected_S1_type,expected_Genotype,expected_Geo_type,expected_Haplotype,reference_source,notes
-example_sequence,NXT,NND,NXT,G,No glycosylation,European/American non-SINDEL,G2c,Asian G2c,G2c: H3,manual_check,replace this example row before validation
