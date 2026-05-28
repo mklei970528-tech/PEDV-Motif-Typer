@@ -2,6 +2,12 @@
 
 PEDV Motif Typer is a Shiny web application for identifying PEDV S-protein polymorphic motif types from nucleotide or amino-acid sequences. The app supports sequence typing, strain lookup, curated reference information, phylogenetic context, and spatiotemporal distribution panels for the current PEDV S-gene motif typing system.
 
+## Live App
+
+The online typing website is available at:
+
+<https://raysapp.shinyapps.io/pedv-s-typing/>
+
 ## Main Features
 
 - Unified input for FASTA sequence typing and accession or strain lookup.
