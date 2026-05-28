@@ -1,135 +1,115 @@
-PEDV Motif Typing Platform (Shiny)
-=================================
+# PEDV Motif Typer
 
-An online Shiny application for Porcine Epidemic Diarrhea Virus (PEDV) classification
-based on motif haplotypes.
+PEDV Motif Typer is a Shiny web application for identifying PEDV S-protein polymorphic motif types from nucleotide or amino-acid sequences. The app supports sequence typing, strain lookup, curated reference information, phylogenetic context, and spatiotemporal distribution panels for the current PEDV S-gene motif typing system.
 
-Live demo (shinyapps.io):  https://raysapp.shinyapps.io/pedvmotiffinder_v2/
+## Main Features
 
+- Unified input for FASTA sequence typing and accession or strain lookup.
+- Supports nucleotide S genes, amino-acid S proteins, longer nucleotide fragments containing S, lowercase input, aligned sequences with gaps, and common reading-frame offsets.
+- Reports five polymorphic-locus states:
+  - N57/N62
+  - 135/136 motif
+  - N1192/N1194
+  - G1157
+  - N718/N722
+- Reports four typing systems:
+  - S1-type: N57/N62 + 135/136 motif
+  - Genotype: N57/N62 + N1192/N1194
+  - Geo-type: N57/N62 + 135/136 motif + N1192/N1194 + G1157
+  - Haplotype: N57/N62 + 135/136 motif + N1192/N1194 + G1157 + N718/N722
+- Provides curated group descriptions, reference strains with NCBI links, static tree panels, and dynamic spatiotemporal trend plots.
 
-FEATURES
---------
-- Accepts FASTA sequences as nucleotide (NT) or amino acid (AA) (auto-detected).
-- Robust preprocessing to remove illegal characters (e.g., '?', unicode, punctuation).
-- NT mode: translates in three frames and selects the best frame by motif alignment score.
-- AA mode: aligns and extracts motifs directly.
-- Motif extraction via local alignment (DECIPHER AlignSeqs).
-- Detects N-linked glycosylation motifs (N-X-[S/T], X≠P) for M1–M3.
-- Assigns Motif Type by matching the combined glyco/motif pattern to a curated lookup table.
-- Interactive results table and an Information panel linked to references from Information.xlsx.
-- Fully compatible with shinyapps.io (≤20MB upload limit set in code).
+## Repository Contents
 
+- `app.R`: Main Shiny application.
+- `sequence_database.csv`: Curated searchable sequence database.
+- `Information_current_typing.xlsx`: Curated typing information and reference descriptions.
+- `typing_description_editable.csv`: Editable description table used by the information panel.
+- `four_tree_legend_branch_colors.csv`: Color mapping for tree and trend labels.
+- `www/`: Static tree and spatiotemporal image assets.
+- `validation_scripts/`: Backend validation script.
+- `validation_output_3042_20260528_final/`: Final validation output for the 3042-sequence dataset.
+- `README_DEPLOYMENT.md`: Deployment-oriented notes.
 
-INPUT & OUTPUT
---------------
-Input options:
-1) Paste sequences in FASTA format, or
-2) Upload a FASTA file (≤20MB)
+## Running Locally
 
-FASTA examples:
+Open R in the repository folder and run:
 
-Nucleotide
->seq1
-ATGCTG...
+```r
+shiny::runApp(".", host = "127.0.0.1", port = 3838)
+```
 
-Amino acid
->seq2
-MKTIIALSYIFCLV...
+Then open:
 
-Output table includes:
-- Status (Success / Failed)
-- Motif_Type (e.g., G2c L10)
-- Typing_Combination (e.g., 12_NXT | 5_NXT | 12_NXT | S-type)
-- Motif sequences (M1_AA–M4_AA)
-Download: PEDV_motif_typing_results.csv
+```text
+http://127.0.0.1:3838/
+```
 
+## Required R Packages
 
-HOW IT WORKS (HIGH LEVEL)
--------------------------
-1) Preprocess input sequence (strip illegal characters, remove gaps).
-2) Detect sequence type:
-   - NT-like if ≥90% A/T/C/G and low non-standard characters
-   - otherwise AA-like
-3) NT sequences are translated into three reading frames.
-4) For each frame (or AA input directly), the app:
-   - aligns the full protein against motif templates (M1–M4)
-   - extracts the aligned motif region and computes identity (%)
-5) If any motif fails to align above threshold -> Status = Failed
-6) Otherwise:
-   - calls N-glyco motifs for M1–M3
-   - calls M4 residue type at position 4 (G/S/R/N -> *-type)
-   - concatenates into a Typing_Combination
-   - assigns Motif_Type using the mapping table
+The app uses:
 
+- `shiny`
+- `bslib`
+- `shinycssloaders`
+- `Biostrings`
+- `dplyr`
+- `tidyr`
+- `purrr`
+- `DT`
+- `readxl`
 
-REQUIREMENTS
-------------
-R (recommended: R >= 4.2)
+Install missing packages before deployment. `Biostrings` is distributed through Bioconductor.
 
-R packages:
-- shiny, bslib, shinycssloaders, DT
-- Biostrings, DECIPHER
-- dplyr, tidyr, purrr
-- readxl
+## Sequence Handling
 
+The backend cleans input sequences, detects nucleotide versus amino-acid input, translates nucleotide input in three reading frames, localizes motif decision windows, and reports only confidently detected loci. Incomplete sequences are allowed; missing downstream regions are reported as undetermined rather than forced into false-negative calls.
 
-RUN LOCALLY
------------
-1) Clone the repository:
-   git clone https://github.com/mklei970528-tech/PEDV-Motif-Typer.git
-cd PEDV-Motif-Typer
+Supported input examples include:
 
-2) Install dependencies in R:
-   install.packages(c("shiny","bslib","shinycssloaders","DT","dplyr","tidyr","purrr","readxl"))
-   if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-   BiocManager::install(c("Biostrings","DECIPHER"))
+- Complete S-gene nucleotide sequences.
+- Longer genome fragments containing S.
+- Amino-acid S-protein sequences.
+- FASTA sequences with line breaks, lowercase letters, or alignment gaps.
+- Sequences with limited ambiguity, where key motif windows remain interpretable.
 
-3) Ensure required file exists at project root:
-   - Information.xlsx
-     Sheet 1: information table (must include a Motif_Type column)
-     Sheet 2: reference mapping table (columns: RefID, Link)
+Highly ambiguous sequences or fragments that do not cover the decision loci may be reported as `Undetermined`.
 
-4) Start the app:
-   shiny::runApp("app.R")
-   (or shiny::runApp("."))
+## Validation
 
+The current backend was validated against a curated 3042-sequence S-gene dataset. The final validation report is:
 
-RECOMMENDED PROJECT STRUCTURE
------------------------------
-.
-├── app.R
-├── Information.xlsx
-├── README.md
-└── LICENSE
+```text
+validation_output_3042_20260528_final/validation_result_and_analysis.md
+```
 
+Final validation showed agreement with curated expected labels for the four typing systems and the five polymorphic-locus states.
 
-COMMON ISSUES
--------------
-- “Information.xlsx not found”
-  Make sure Information.xlsx is in the same directory as app.R (project root).
+## Deployment Notes
 
-- “Invalid FASTA format”
-  Input must contain at least one header line starting with '>'.
+Deploy the complete repository folder, not only `app.R`. The application expects the database files, description files, color table, and `www/` assets to be present beside `app.R`.
 
-- Sequences fail typing
-  If any motif (M1–M4) cannot be aligned above the identity cutoff, the sequence is labeled Failed.
-  Verify sequence coverage/length for motif regions.
+Before deploying, verify:
 
+```r
+invisible(parse("app.R"))
+shiny::runApp(".", host = "127.0.0.1", port = 3838)
+```
 
-CITATION
---------
-If you use this tool in research, please cite/acknowledge this repository:
-- Repository: https://github.com/mklei970528-tech/PEDV-Motif-Typer.git
-- Authors: <Mingkai Lei & Joao Paulo Herrera da Silva/ V-EPI lab>
-(Peer reviewed article citation: Lei, M., Li, H., Chen, X., Li, X., Yu, X., Ruan, S., Wu, H., Ghonaim, A.H., Yan, Z., Li, W. and He, Q. (2025), A novel genotyping system based on site polymorphism on spike gene reveals the evolutionary pathway of porcine epidemic diarrhea virus. iMetaOmics, 2: e70013. https://doi.org/10.1002/imo2.70013)
+## Updating the App
 
+- Update `sequence_database.csv` to refresh searchable strain metadata and typing results.
+- Update `typing_description_editable.csv` or `Information_current_typing.xlsx` to revise group descriptions and reference strains.
+- Replace files in `www/` to update static trees or distribution figures.
+- Update `four_tree_legend_branch_colors.csv` to keep tree and spatiotemporal colors consistent.
 
-LICENSE
--------
-MIT License
+## Citation
 
-Copyright (c) 2026 mklei970528-tech
+If you use this tool in research, please cite or acknowledge this repository:
 
-CONTACT
--------
-For questions or bug reports, please open an Issue on GitHub.
+- Repository: <https://github.com/mklei970528-tech/PEDV-Motif-Typer>
+- Authors: Mingkai Lei and Joao Paulo Herrera da Silva, V-EPI lab
+
+Related peer-reviewed article:
+
+Lei, M., Li, H., Chen, X., Li, X., Yu, X., Ruan, S., Wu, H., Ghonaim, A.H., Yan, Z., Li, W. and He, Q. (2025). A novel genotyping system based on site polymorphism on spike gene reveals the evolutionary pathway of porcine epidemic diarrhea virus. *iMetaOmics*, 2, e70013. <https://doi.org/10.1002/imo2.70013>

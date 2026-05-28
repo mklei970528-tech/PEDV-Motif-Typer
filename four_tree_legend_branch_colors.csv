@@ -1,0 +1,41 @@
+tree_type,type_label,color_hex
+S1 Tree,non-SINDEL,#0057B8
+S1 Tree,Prevalent non-SINDEL,#D62728
+S1 Tree,SINDEL,#00843D
+S1 Tree,Prevalent SINDEL,#7B2CBF
+S1 Tree,European SINDEL,#FF8C00
+S1 Tree,Korean G2,#00A6D6
+Genotype Tree,G2c,#0057B8
+Genotype Tree,G2b,#FF8C00
+Genotype Tree,G1b,#00843D
+Genotype Tree,G1a,#D62728
+Genotype Tree,G2a,#3A0CA3
+Geo Tree,Prevalent G2c,#0057B8
+Geo Tree,Euro-American G2c,#D62728
+Geo Tree,Asian G2c,#00843D
+Geo Tree,Asian G2b,#7B2CBF
+Geo Tree,Prevalent G2b,#FF8C00
+Geo Tree,Euro-American G1b,#00A6D6
+Geo Tree,Prevalent G1b,#8B0000
+Geo Tree,G1a,#FFD500
+Geo Tree,G1b,#005F73
+Geo Tree,European G1b,#FF1493
+Geo Tree,G2a,#3A0CA3
+Haplotype Tree,G2c: H1,#0057B8
+Haplotype Tree,G2c: H2,#D62728
+Haplotype Tree,G2c: H3,#00843D
+Haplotype Tree,G2c: H4,#7B2CBF
+Haplotype Tree,G2c: H5,#FF8C00
+Haplotype Tree,G2b: H6,#00A6D6
+Haplotype Tree,G2b: H7,#8B0000
+Haplotype Tree,G1b: H8,#FFD500
+Haplotype Tree,G2b: H9,#005F73
+Haplotype Tree,G2c: H10,#FF1493
+Haplotype Tree,G1b: H11,#3A0CA3
+Haplotype Tree,G2b: H12,#2B2D42
+Haplotype Tree,G1b: H13,#00A878
+Haplotype Tree,G1a: H14,#E76F51
+Haplotype Tree,G1b: H15,#6A4C93
+Haplotype Tree,G1a: H16,#118AB2
+Haplotype Tree,G2a: H17,#C1121F
+Haplotype Tree,G1b: H18,#2A9D8F
