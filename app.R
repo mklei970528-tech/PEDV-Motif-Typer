@@ -2744,6 +2744,13 @@ server <- function(input, output, session) {
       ))
     }
     matched <- matched[order(wanted$Rank[!is.na(hit)]), , drop = FALSE]
+    output_key <- paste(normalize_motif(wanted$OutputSystem[1]), normalize_motif(wanted$OutputType[1]), sep = "||")
+    ref_hit <- match(output_key, key_info)
+    reference_matched <- if (!is.na(ref_hit)) {
+      info[ref_hit, , drop = FALSE]
+    } else {
+      matched[nrow(matched), , drop = FALSE]
+    }
     split_items <- function(x) {
       x <- gsub("\uff1b", ";", as.character(x), fixed = TRUE)
       x <- unlist(strsplit(x, "\\s*;\\s*|\\s*\\|\\s*", perl = TRUE), use.names = FALSE)
@@ -2765,7 +2772,7 @@ server <- function(input, output, session) {
       `Typing system` = wanted$OutputSystem[1],
       Type = wanted$OutputType[1],
       `Polymorphic pattern` = collapse_field(matched[["Polymorphic pattern"]]),
-      `Selected reference strains` = collapse_field(matched[["Selected reference strains"]], sep = " | "),
+      `Selected reference strains` = collapse_field(reference_matched[["Selected reference strains"]], sep = " | "),
       Description = collapse_description(matched[["Description"]]),
       check.names = FALSE
     )
